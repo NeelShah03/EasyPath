@@ -15,6 +15,10 @@ import { LocationContext } from "../contexts/LocationContext";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import Screens from "../constants/Screens";
+import MapboxGL from "@rnmapbox/maps";
+
+MapboxGL.setAccessToken("pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ");
+
 
 const DUMMY_TIME = 6;
 
@@ -42,6 +46,22 @@ export const MapScreen = ({ navigation, route }) => {
         addRecentSearch(startPoint, destination, currentDate, DUMMY_TIME);
         navigation.navigate(Screens.WELCOME);
     };
+
+    const mapContainer = useRef(null);
+    const map = useRef(null);
+    const [lng, setLng] = useState(150.878);
+    const [lat, setLat] = useState(-34.405);
+    const [zoom, setZoom] = useState(15.2);
+
+    useEffect(() => {
+        if (map.current) return; // initialize map only once
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [lng, lat],
+          zoom: zoom
+        });
+      });
 
     return (
         <SafeAreaView>
@@ -81,7 +101,11 @@ export const MapScreen = ({ navigation, route }) => {
                     <Text style={styles.buttonText}>Start</Text>
                 </View>
             </TouchableOpacity>
-            <Text style={styles.text}> Map View Here</Text>
+            <View style={styles.page}>
+                <View style={styles.container}>
+                    <MapboxGL.MapView style={styles.map}/>
+                </View>
+            </View>            
         </SafeAreaView>
     );
 };
@@ -144,4 +168,18 @@ const styles = StyleSheet.create({
         marginTop: 100,
         fontSize: 30,
     },
+    page: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#F5FCFF"
+    },
+    container: {
+        height: 300,
+        width: 300,
+        backgroundColor: "tomato"
+    },
+    map: {
+        flex: 1
+    }
 });
