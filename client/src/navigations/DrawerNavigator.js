@@ -19,6 +19,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import Screens from "../constants/Screens";
 import { WelcomeScreen } from "../screens/WelcomeScreen";
 import { InterestedPlacesScreen } from "../screens/InterestedPlacesScreen";
+import { MapScreen } from "../screens/MapScreen";
 
 const CustomDrawerMenu = (props) => {
     const { logout } = useContext(AuthContext);
@@ -68,6 +69,12 @@ export const DrawerNavigator = () => {
             <Drawer.Screen
                 name={Screens.INTERESTED_PLACE}
                 component={InterestedPlacesScreen}
+                options={{ headerShown: false }}
+            />
+
+            <Drawer.Screen
+                name={Screens.MAP}
+                component={MapScreen}
                 options={{ headerShown: false }}
             />
         </Drawer.Navigator>

@@ -18,29 +18,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyDVKkbruYkkfSRqd80AQFT7pYFfIDuJxfU"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDpzSHlYA3bcMjB1iVYdQlJc27sjNdqw6E"
+        }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "@rnmapbox/maps",
-        {
-          "RNMapboxMapsImpl": "mapbox",
-          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiamFzZXkiLCJhIjoiY2xneGdmNmdzMDFqaTNmb2d0cWl3NGt4ZiJ9.Kn4Bh2VaB3lhda5O7Si6-Q"
-        },
-        "expo-location",
-        {
-          "locationWhenInUsePermission": "Show current location on map."
-        }
-      ]
-    ]
+    }
   }
 }

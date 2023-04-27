@@ -5,8 +5,9 @@ import {
     SafeAreaView,
     ScrollView,
     StatusBar,
+    Dimensions,
 } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HeadBar } from "../components/HeadBar";
 import { SearchBar } from "../components/SearchBar";
 import colors from "../constants/colors.js";
@@ -19,16 +20,19 @@ import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import moment from "moment";
 import Screens from "../constants/Screens";
+
 export const WelcomeScreen = () => {
     const navigation = useNavigation();
     const { recentSearch, fetch } = useContext(SearchContext);
     const isFocused = useIsFocused();
     const currentDate = moment().format("DD/MM/YYYY");
 
+
     useEffect(() => {
         if (isFocused) {
             // fetch();
         }
+
     }, [isFocused]);
 
     const toggleDrawer = () => {
@@ -61,7 +65,7 @@ export const WelcomeScreen = () => {
                 onPress={showSuggestionList}
                 placeholderText="Search here"
             />
-
+             
             <View>
                 <View style={styles.logoView}>
                     <Text style={styles.lastLogin}>
@@ -69,6 +73,9 @@ export const WelcomeScreen = () => {
                     </Text>
                     <Logo size={1 / 4} />
                 </View>
+                <View style={styles.container}>
+                
+                </View> 
                 <View style={styles.recentSearch}>
                     <Text style={styles.headerText}>Recent Searches</Text>
                     <View style={styles.seperator}></View>
@@ -90,6 +97,7 @@ export const WelcomeScreen = () => {
                             )}
                     </ScrollView>
                 </View>
+                
             </View>
         </SafeAreaView>
     );
@@ -125,5 +133,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginHorizontal: 25,
         borderRadius: 5,
+    },
+    container: {
+        flex: 1,
+    },
+    map: {
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+
     },
 });
