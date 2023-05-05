@@ -15,9 +15,14 @@ import { LocationContext } from "../contexts/LocationContext";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import Screens from "../constants/Screens";
-import MapView from 'react-native-maps';
+//import MapView from 'react-native-maps';
 import * as Location from "expo-location";
+import MapboxGL from "@rnmapbox/maps";
+//import Geojson from "react-native-geojson";
+//import geojsonMap from "../data/UoW_Effort_Draft.json";
 
+const tokenmapbox = "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ";
+MapboxGL.setAccessToken(tokenmapbox);
 
 const DUMMY_TIME = 6;
 
@@ -30,6 +35,7 @@ export const MapScreen = ({ navigation, route }) => {
     const [errorMsg, setErrorMsg] = useState(null);
     const [location, setLocation] = useState(null);
     const [map, setMap] = useState(null);
+    
 
     const searchStartPoint = () => {
         navigation.push(Screens.SUGGESTION, {
@@ -48,29 +54,6 @@ export const MapScreen = ({ navigation, route }) => {
         addRecentSearch(startPoint, destination, currentDate, DUMMY_TIME);
         navigation.navigate(Screens.WELCOME);
     };
-
-
-    useEffect(() => {
-        (async () => {
-            try {
-                let {status} = await Location.requestPermissionsAsync();
-                if (status !== "granted") {
-                    setErrorMsg("Permission to access location was denied");
-                }
-
-                const location = await Location.getCurrentPositionAsync({});
-                setLocation({
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    latitudeDelta: 1,
-                    longitudeDelta: 0.04,
-
-                });
-            } catch (err) {
-                console.log({ err });
-            }
-        });
-      });
 
     return (
         <SafeAreaView>
@@ -110,18 +93,13 @@ export const MapScreen = ({ navigation, route }) => {
                     <Text style={styles.buttonText}>Start</Text>
                 </View>
             </TouchableOpacity>
-            <MapView 
+            <MapboxGL.MapView 
                 style={styles.map}
                     
-                //provider="PROVIDER_GOOGLE"
+            >
 
-                ref={(map) => setMap(map)}
-                initialRegion={location}
-                showsCompass={true}
-                rotateEnabled={true}
-                showsUserLocation={true}
-                showsMyLocationButton={false}
-            />          
+            </MapboxGL.MapView>
+                      
         </SafeAreaView>
     );
 };

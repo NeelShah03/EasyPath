@@ -9,7 +9,19 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "plugins": [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ"
+        },
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Show current location on map."
+        }
+
+      ]
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,24 +30,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "config": {
-        "googleMapsApiKey": "AIzaSyDVKkbruYkkfSRqd80AQFT7pYFfIDuJxfU"
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyDpzSHlYA3bcMjB1iVYdQlJc27sjNdqw6E"
-        }
+      }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  }
 }
