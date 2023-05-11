@@ -15,12 +15,10 @@ import { LocationContext } from "../contexts/LocationContext";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import Screens from "../constants/Screens";
-//import MapView from 'react-native-maps';
+import { Entypo } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import MapboxGL from "@rnmapbox/maps";
-//import Geojson from "react-native-geojson";
-//import geojsonMap from "../data/UoW_Effort_Draft.json";
-
+MapboxGL.setWellKnownTileServer('Mapbox')
 const tokenmapbox = "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ";
 MapboxGL.setAccessToken(tokenmapbox);
 
@@ -35,6 +33,7 @@ export const MapScreen = ({ navigation, route }) => {
     const [errorMsg, setErrorMsg] = useState(null);
     const [location, setLocation] = useState(null);
     const [map, setMap] = useState(null);
+    const startingCoords = [150.8778 , -34.412];
     
 
     const searchStartPoint = () => {
@@ -55,6 +54,12 @@ export const MapScreen = ({ navigation, route }) => {
         navigation.navigate(Screens.WELCOME);
     };
 
+    const toggleDrawer = () => {
+        navigation.openDrawer();
+    };
+
+    
+
     return (
         <SafeAreaView>
             <StatusBar />
@@ -63,13 +68,14 @@ export const MapScreen = ({ navigation, route }) => {
                 onPress={() => {
                     chooseStartPoint("Your Location");
                     chooseDestination("");
-                    navigation.navigate(params.goBackTo);
+                    toggleDrawer;
                 }}
                 icon={
-                    <Ionicons
-                        name="md-chevron-back"
-                        color={colors.white}
+                    <Entypo
+                        name="menu"
                         size={35}
+                        color={colors.white}
+                        style={styles.icon}
                     />
                 }
             />
@@ -95,8 +101,23 @@ export const MapScreen = ({ navigation, route }) => {
             </TouchableOpacity>
             <MapboxGL.MapView 
                 style={styles.map}
-                    
+                centerCoordinate={startingCoords}
+                showUserLocation={true}
             >
+                <MapboxGL.Camera
+                    zoomLevel={14.75}
+                    animationMode={'flyTo'}
+                    animationDuration={0}
+                    centerCoordinate={startingCoords}
+                >
+                </MapboxGL.Camera>
+                <MapboxGL.UserLocation>
+
+                </MapboxGL.UserLocation>
+                <MapboxGL.Geocoder
+                bbox: [-34.408581, 150.871758, -34.403101, 150.883313],
+                />
+                
 
             </MapboxGL.MapView>
                       
