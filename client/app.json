@@ -9,7 +9,19 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "plugins": [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ"
+        },
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Show current location on map."
+        }
+
+      ]
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,9 +37,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  }
 }
