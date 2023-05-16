@@ -18,7 +18,7 @@ import Screens from "../constants/Screens";
 import { Entypo } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import MapboxGL from "@rnmapbox/maps";
-MapboxGL.setWellKnownTileServer('Mapbox')
+//MapboxGL.setWellKnownTileServer('MapboxGL');
 const tokenmapbox = "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ";
 MapboxGL.setAccessToken(tokenmapbox);
 
@@ -32,7 +32,6 @@ export const MapScreen = ({ navigation, route }) => {
     const params = route.params;
     const [errorMsg, setErrorMsg] = useState(null);
     const [location, setLocation] = useState(null);
-    const [map, setMap] = useState(null);
     const startingCoords = [150.8778 , -34.412];
     
 
@@ -58,8 +57,31 @@ export const MapScreen = ({ navigation, route }) => {
         navigation.openDrawer();
     };
 
-    
+    const [calloutVisible, setCalloutVisible] = useState(false);
 
+    const [coordinates] = useState([-5, 55]);
+  
+    const onMarkerPress = () => {
+      setCalloutVisible(true);
+    };
+
+    useEffect(() => {
+        (async () => {
+          const { status } = await Location.requestForegroundPermissionsAsync();
+    
+          if (status !== 'granted') {
+            console.error('Permission to access location was denied');
+    
+            return;
+          }
+    
+          const currentLocation = await Location.getCurrentPositionAsync({});
+    
+          setLocation(currentLocation.coords);
+        })();
+    }, []);
+
+    
     return (
         <SafeAreaView>
             <StatusBar />
@@ -99,28 +121,27 @@ export const MapScreen = ({ navigation, route }) => {
                     <Text style={styles.buttonText}>Start</Text>
                 </View>
             </TouchableOpacity>
-            <MapboxGL.MapView 
-                style={styles.map}
-                centerCoordinate={startingCoords}
-                showUserLocation={true}
-            >
-                <MapboxGL.Camera
-                    zoomLevel={14.75}
-                    animationMode={'flyTo'}
-                    animationDuration={0}
-                    centerCoordinate={startingCoords}
+            {location && (
+                <MapboxGL.MapView 
+                    style={styles.map}
+                    centerCoordinate={[location.longitude, location.latitude]}
                 >
-                </MapboxGL.Camera>
-                <MapboxGL.UserLocation>
+                    <MapboxGL.Camera
+                        zoomLevel={14.75}
+                        animationMode={'flyTo'}
+                        animationDuration={0}
+                        centerCoordinate={[location.longitude, location.latitude]}
+                    >
+                    </MapboxGL.Camera>
+                    
+                    <MapboxGL.PointAnnotation 
+                        id="userLocation" 
+                        coordinate={[location.longitude, location.latitude]} 
+                        title="Your Location"
+                    />
 
-                </MapboxGL.UserLocation>
-                <MapboxGL.Geocoder
-                bbox: [-34.408581, 150.871758, -34.403101, 150.883313],
-                />
-                
-
-            </MapboxGL.MapView>
-                      
+                </MapboxGL.MapView>
+            )}
         </SafeAreaView>
     );
 };
