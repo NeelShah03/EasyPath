@@ -15,14 +15,12 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../constants/colors";
-import { AuthContext } from "../contexts/AuthContext";
 import Screens from "../constants/Screens";
 import { WelcomeScreen } from "../screens/WelcomeScreen";
 import { InterestedPlacesScreen } from "../screens/InterestedPlacesScreen";
 import { MapScreen } from "../screens/MapScreen";
 
 const CustomDrawerMenu = (props) => {
-    const { logout } = useContext(AuthContext);
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.menuHeaderBox}>
@@ -42,9 +40,6 @@ const CustomDrawerMenu = (props) => {
                     label="Visit Us"
                     onPress={() => Linking.openURL("https://www.uow.edu.au/")}
                 />
-                <TouchableOpacity onPress={logout} style={styles.button}>
-                    <Text style={styles.buttonText}>Log Out</Text>
-                </TouchableOpacity>
             </DrawerContentScrollView>
         </SafeAreaView>
     );

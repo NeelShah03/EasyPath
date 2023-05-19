@@ -11,17 +11,15 @@ import { Logo } from "../components/Logo";
 import Screens from "../constants/Screens";
 import { useIsFocused } from "@react-navigation/native";
 import colors from "../constants/colors";
-import { AuthContext } from "../contexts/AuthContext";
 
 export const LoadingScreen = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true);
     const isFocused = useIsFocused();
-    const { tryLocalSignin } = useContext(AuthContext);
 
     const handleLoading = () => {
         setTimeout(() => {
             setIsLoading(false);
-            tryLocalSignin();
+            navigation.navigate(Screens.DRAWER_NAVIGATOR);
         }, 1000);
     };
 

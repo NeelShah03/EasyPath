@@ -9,19 +9,20 @@ import {
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { HeadBar } from "../components/HeadBar";
 import colors from "../constants/colors";
-import { SearchContext } from "../contexts/SearchContext";
+
 import { SearchBar } from "../components/SearchBar";
 import { LocationContext } from "../contexts/LocationContext";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import Screens from "../constants/Screens";
+import { SearchContext } from "../contexts/SearchContext";
 //import MapView from 'react-native-maps';
-import * as Location from "expo-location";
 import MapboxGL from "@rnmapbox/maps";
-//import Geojson from "react-native-geojson";
+import Geojson from "react-native-geojson";
 //import geojsonMap from "../data/UoW_Effort_Draft.json";
 
-const tokenmapbox = "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ";
+const tokenmapbox =
+    "pk.eyJ1IjoiamFzZXkiLCJhIjoiY2xmOTU3YWF0MjM5NzNzbzRzZmg1bXN3NyJ9.v11b3j2Is0NqG1Mp_xb7CQ";
 MapboxGL.setAccessToken(tokenmapbox);
 
 const DUMMY_TIME = 6;
@@ -29,13 +30,11 @@ const DUMMY_TIME = 6;
 export const MapScreen = ({ navigation, route }) => {
     const { startPoint, destination, chooseDestination, chooseStartPoint } =
         useContext(LocationContext);
-    const { addRecentSearch } = useContext(SearchContext);
+    const { addSearch } = useContext(SearchContext);
+
     const currentDate = moment().format("DD/MM/YYYY");
     const params = route.params;
-    const [errorMsg, setErrorMsg] = useState(null);
-    const [location, setLocation] = useState(null);
-    const [map, setMap] = useState(null);
-    
+    console.log(params);
 
     const searchStartPoint = () => {
         navigation.push(Screens.SUGGESTION, {
@@ -51,8 +50,7 @@ export const MapScreen = ({ navigation, route }) => {
     };
 
     const search = (startPoint, destination) => {
-        addRecentSearch(startPoint, destination, currentDate, DUMMY_TIME);
-        navigation.navigate(Screens.WELCOME);
+        addSearch(startPoint, destination, currentDate, DUMMY_TIME);
     };
 
     return (
@@ -63,7 +61,7 @@ export const MapScreen = ({ navigation, route }) => {
                 onPress={() => {
                     chooseStartPoint("Your Location");
                     chooseDestination("");
-                    navigation.navigate(params.goBackTo);
+                    navigation.navigate(params.goBackTo || Screens.WELCOME);
                 }}
                 icon={
                     <Ionicons
@@ -93,13 +91,7 @@ export const MapScreen = ({ navigation, route }) => {
                     <Text style={styles.buttonText}>Start</Text>
                 </View>
             </TouchableOpacity>
-            <MapboxGL.MapView 
-                style={styles.map}
-                    
-            >
-
-            </MapboxGL.MapView>
-                      
+            <MapboxGL.MapView style={styles.map}></MapboxGL.MapView>
         </SafeAreaView>
     );
 };
@@ -166,7 +158,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     map: {
-        width: '100%',
-        height: '100%',
-    }
+        width: "100%",
+        height: "100%",
+    },
 });
