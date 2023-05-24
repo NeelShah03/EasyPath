@@ -28,12 +28,7 @@ export const WelcomeScreen = () => {
     const currentDate = moment().format("DD/MM/YYYY");
 
 
-    useEffect(() => {
-        if (isFocused) {
-            // fetch();
-        }
-
-    }, [isFocused]);
+    
 
     const toggleDrawer = () => {
         navigation.openDrawer();

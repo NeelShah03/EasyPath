@@ -44,9 +44,6 @@ export const InterestedPlacesScreen = ({ navigation }) => {
             />
             <View style={styles.contentBox}>
                 <InterestedPlaces />
-                <View style={styles.logo}>
-                    <Logo size={1 / 4} />
-                </View>
             </View>
         </SafeAreaView>
     );
@@ -55,6 +52,7 @@ export const InterestedPlacesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     contentBox: {
         flexDirection: "row",
+        marginLeft: 5,
     },
     logo: {
         paddingTop: 25,

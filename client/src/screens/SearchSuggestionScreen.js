@@ -4,56 +4,76 @@ import {
     SafeAreaView,
     FlatList,
     StyleSheet,
-    StatusBar,
+    Keyboard,
 } from "react-native";
-import React, { useContext } from "react";
-import { SearchBar } from "../components/SearchBar";
-import colors from "../constants/colors";
+import React, { useContext, useState, useEffect } from "react";
 import buildings from "../constants/buildings";
-import { Ionicons } from "@expo/vector-icons";
 import { SuggestionRow } from "../components/SuggestionRow";
 
 import { LocationContext } from "../contexts/LocationContext";
 import Screens from "../constants/Screens";
+import { StatusBarForm } from "../components/layout/StatusBarForm";
+import { RoundedSearchBar } from "../components/layout/RoundedSearchBar";
+import { GoBackIcon } from "../components/layout/Icons";
 
 export const SearchSuggestionScreen = ({ navigation, route }) => {
+    const [inputValue, setInputValue] = useState("");
+    const [filteredList, setFilteredList] = useState(buildings);
+
+    // using callback function to pass information from a child to a parent
+    const handleInputText = (newValue) => {
+        setInputValue(newValue);
+    };
+
+    useEffect(() => {
+        setFilteredList(
+            buildings.filter((item) => item.titleName.includes(inputValue))
+        );
+    }, [inputValue]);
+
     const { chooseStartPoint, chooseDestination } = useContext(LocationContext);
     const placeholderText = route.params.placeholderText;
     const goBackToScreen = route.params.goBackTo;
 
     const handle = (location) => {
-        console.log("something");
         if (route.params.title === "destination") {
-            chooseDestination(location);
+            chooseDestination(location.titleName);
         } else {
-            chooseStartPoint(location);
+            chooseStartPoint(location.titleName);
         }
-        navigation.navigate(Screens.MAP, { goBackTo: goBackToScreen });
+        navigation.navigate(Screens.MAP, {
+            goBackTo: goBackToScreen,
+            coords: {
+                latitude: location.latitude,
+                longitude: location.longitude,
+            },
+        });
     };
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar />
-            <SearchBar
-                isInputFocused={true}
-                goBack={() => navigation.pop()}
+            <StatusBarForm />
+            <RoundedSearchBar
+                icon={<GoBackIcon onPress={() => navigation.pop()} />}
                 placeholderText={placeholderText}
+                autoFocus={true}
+                onChangeText={handleInputText}
             />
             <View style={styles.suggestionBox}>
                 <Text style={styles.historyText}>SUGGESTIONS</Text>
 
                 <FlatList
-                    data={buildings}
+                    data={filteredList}
                     renderItem={({ item }) => {
                         return (
                             <SuggestionRow
-                                name={item}
-                                key={item.index}
+                                name={item.titleName}
                                 onPress={() => handle(item)}
                             />
                         );
                     }}
-                    keyExtractor={(item) => item}
+                    keyExtractor={(item) => item.id}
                     keyboardShouldPersistTaps="always"
+                    onScroll={() => Keyboard.dismiss()}
                 />
             </View>
         </SafeAreaView>
@@ -62,13 +82,12 @@ export const SearchSuggestionScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 10,
+        marginLeft: 10,
+        marginTop: 10,
     },
     suggestionBox: {
-        backgroundColor: colors.white,
-        marginHorizontal: 10,
-        borderRadius: 15,
-        padding: 10,
+        height: 750,
+        marginVertical: 10,
     },
 
     historyText: { fontSize: 16, fontWeight: "bold", padding: 10 },

@@ -7,52 +7,72 @@ import {
 } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import colors from "./colors";
-
+import buildings from "./buildings";
 const styles = StyleSheet.create({
     icon: {
-        fontSize: 30,
+        fontSize: 40,
         color: colors.blue,
     },
 });
 export default [
     {
         icon: <MaterialIcons name="house" style={styles.icon} />,
-        location: "Student Central",
+        title: "Student Central",
+        latitude: -34.40177296,
+        longitude: 150.878431,
     },
     {
         icon: <Ionicons name="library" style={styles.icon} />,
-        location: "Library",
+        title: "Library",
+        latitude: -34.41177296,
+        longitude: 150.878431,
     },
     {
         icon: <FontAwesome name="bank" style={styles.icon} />,
-        location: "Bank",
+        title: "Bank",
+        latitude: -34.42177296,
+        longitude: 150.878431,
     },
     {
         icon: <MaterialIcons name="food-bank" style={styles.icon} />,
-        location: "Food Court",
+        title: "Food Court",
+        latitude: -34.43177296,
+        longitude: 150.878431,
     },
     {
         icon: <FontAwesome5 name="coffee" style={styles.icon} />,
-        location: "Coffee Shop",
+        title: "Coffee Shop",
+        latitude: -34.44177296,
+        longitude: 150.878431,
     },
     {
         icon: <MaterialCommunityIcons name="bus-stop" style={styles.icon} />,
-        location: "Bus Stop",
+        title: "Bus Stop",
+        latitude: -34.42177296,
+        longitude: 150.878431,
     },
     {
         icon: <FontAwesome5 name="parking" style={styles.icon} />,
-        location: "Parking",
+        title: "Parking",
+        latitude: -34.45177296,
+        longitude: 150.878431,
     },
     {
         icon: <MaterialIcons name="security" style={styles.icon} />,
-        location: "Security",
+        title: "Security",
+        latitude: -34.46177296,
+        longitude: 150.878431,
     },
     {
         icon: <FontAwesome5 name="table-tennis" style={styles.icon} />,
-        location: "Sport",
+        title: "Sport",
+        latitude: -34.47177296,
+        longitude: 150.878431,
     },
     {
         icon: <MaterialIcons name="local-movies" style={styles.icon} />,
-        location: "Uni Movies",
+        title: "Uni Movies",
+        latitude: -34.49177296,
+        longitude: 150.878431,
     },
 ];

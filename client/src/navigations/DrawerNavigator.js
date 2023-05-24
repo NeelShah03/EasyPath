@@ -66,12 +66,6 @@ export const DrawerNavigator = () => {
                 component={InterestedPlacesScreen}
                 options={{ headerShown: false }}
             />
-
-            <Drawer.Screen
-                name={Screens.MAP}
-                component={MapScreen}
-                options={{ headerShown: false }}
-            />
         </Drawer.Navigator>
     );
 };
